@@ -93,24 +93,24 @@ docker network create twotier
 i) MySQL container 
 ```bash
 docker run -d \
-    --name mysql \
+    --name mysql-container \
     -v mysql-data:/var/lib/mysql \
-    --network=twotier \
-    -e MYSQL_DATABASE=mydb \
-    -e MYSQL_ROOT_PASSWORD=admin \
+    --network=mynetwork \
+    -e MYSQL_DATABASE=devops \
+    -e MYSQL_ROOT_PASSWORD=root \
     -p 3306:3306 \
-    mysql:5.7
+    mysql:latest
 
 ```
 ii) Backend container
 ```bash
 docker run -d \
     --name flaskapp \
-    --network=twotier \
-    -e MYSQL_HOST=mysql \
+    --network=mynetwork \
+    -e MYSQL_HOST=mysql-container \
     -e MYSQL_USER=root \
-    -e MYSQL_PASSWORD=admin \
-    -e MYSQL_DB=mydb \
+    -e MYSQL_PASSWORD=root \
+    -e MYSQL_DB=devops \
     -p 5000:5000 \
     flaskapp:latest
 
@@ -127,4 +127,5 @@ docker run -d \
 - If you encounter issues, check Docker logs and error messages for troubleshooting.
 
 ```
+<img width="1852" height="1005" alt="image" src="https://github.com/user-attachments/assets/616e39c0-69e7-4658-9e4b-523121e88c74" />
 
